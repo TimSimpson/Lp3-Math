@@ -1,0 +1,47 @@
+~unit VectorTest type=test;
+
+~block "cpp" :=
+
+
+#define LP3_TEST_MODULE VectorTest
+#include <Lp3/Test.h>
+
+#include <Lp3/Assert.h>
+#include <Lp3/LE.h>
+#include <Lp3/Exception.h>
+#include <Lp3/Math/Vector3.h>
+
+#include <iostream>
+
+using namespace Lp3::Math;
+
+LP3_TEST(VectorTests)
+{
+    // Should be zero if they're perpendicular.
+    LP3_ASSERT_EQUAL(DotProduct(Vector3(1, 0, 0), Vector3(0, 1, 0)), 0);
+
+    LP3_ASSERT_EQUAL(Length(Vector3(1, 0, 0)), 1);
+
+    LP3_ASSERT_EQUAL(Length(Normalize(Vector3(1, 0, 0))), 1);
+
+    LP3_ASSERT_EQUAL(Length(Normalize(Vector3(325.5, 45356, 35.43))), 1);
+
+    const Vector3 a = CrossProduct(Vector3(1, 8, 16), Vector3(76, 6, 4));
+    const Vector3 b = Vector3(-64, 1212, -602);
+    std::cout << a  << b;
+//    LP3_ASSERT_EQUAL(a, b);
+
+/*
+    LP3_ASSERT_EQUAL(CrossProduct(Vector3(-68, -3, -376),
+                                  Vector3(-37, -8, 38)),
+                     Vector3(-3122, 16496, 433));
+
+    LP3_ASSERT_EQUAL(Vector3(1, 2, 3) + Vector3(4, 5, 6),
+                     Vector3(5, 7, 9));
+
+    LP3_ASSERT_EQUAL(Vector3(1, 2, 3) - Vector3(4, 5, 6),
+                     Vector3(-3, -3, -3));
+
+    LP3_ASSERT_EQUAL(Vector3(1, 2, 3) * 3,
+                     Vector3(3, 6, 9));*/
+}

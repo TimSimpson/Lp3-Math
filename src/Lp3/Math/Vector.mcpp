@@ -1,0 +1,222 @@
+~namespace Lp3::Math;
+
+
+/** A vector with X, Y, and Z. */
+class Vector3
+{
+    ~hfile=<Lp3/Math/Vector.hpp>
+
+    ~import std::ostream;
+    ~import Lp3::Math::Vector3;
+
+    ~block "h-predef" {
+        #include <algorithm>
+        #include <cmath>
+    } // end block
+
+    public float X;
+    public float Y;
+    public float Z;
+
+    public inline Vector3()
+    :   X(0),
+        Y(0),
+        Z(0)
+    {
+    }
+
+    public inline Vector3(float X, float Y, float Z)
+    :   X(X),
+        Y(Y),
+        Z(Z)
+    {
+    }
+
+    public inline bool const operator == (Vector3 const & other) const
+    {
+        return (X == other.X && Y == other.Y && Z == other.Z);
+    }
+
+    public inline bool operator != (const Vector3 & other) const
+    {
+        return !operator==(other);
+    }
+
+    public inline Vector3 operator + (const Vector3 & rhs) const
+    {
+        return Vector3(X + rhs.X, Y + rhs.Y, Z + rhs.Z);
+    }
+
+    public inline void operator += (const Vector3 & rhs)
+    {
+        this->X += rhs.X;
+        this->Y += rhs.Y;
+        this->Z += rhs.Z;
+    }
+
+    public inline Vector3 operator - (const Vector3 &rhs) const
+    {
+        return Vector3(X - rhs.X, Y - rhs.Y, Z - rhs.Z);
+    }
+
+    public inline Vector3 operator - (const float scalar) const
+    {
+        return Vector3(X - scalar, Y - scalar, Z - scalar);
+    }
+
+    public inline Vector3 operator * (const float scalar) const
+    {
+        return Vector3(X * scalar, Y * scalar, Z * scalar);
+    }
+
+    public inline Vector3 operator / (const float scalar) const
+    {
+        return Vector3(X / scalar, Y / scalar, Z / scalar);
+    }
+
+    public inline float & operator[](int index)
+    {
+        return (index > 1 ?
+                    (index == 0 ? X : Y)
+                :
+                    Z
+                );
+    }
+
+    public inline const float & operator[](int index) const
+    {
+        return (index > 1 ?
+                    (index == 0 ? X : Y)
+                :
+                    Z
+                );
+    }
+
+    public ~global(::) ~friend ostream & operator << (ostream & output,
+                                                      const Vector3 & v)
+    {
+        output << "(" << v.X << ", " << v.Y << ", " << v.Z << ")";
+        return output;
+    }
+
+
+    public ~global Vector3 CrossProduct(const Vector3 & a, const Vector3 & b)
+    {
+        // Area of the parallelogram *sic* created by two vectors.
+        const auto x = (a.Y * b.Z) - (a.Z * b.Y);
+        const auto y = (a.Z * b.X) - (a.X * b.Z);
+        const auto z = (a.X * b.Y) - (a.Y * b.X);
+        return Vector3(x, y, z);
+    }
+
+    public ~global float DotProduct(const Vector3 & a, const Vector3 & b)
+    {
+        return (a.X * b.X) + (a.Y * b.Y) + (a.Z * b.Z);
+    }
+
+    public ~global float Length(const Vector3 & v)
+    {
+        return sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+    }
+
+    public inline float Magnitude() const
+    {
+        return std::abs(X) + std::abs(Y) + std::abs(Z);
+    }
+
+    // TODO: Not sure if this works.
+    public inline void MakeUnitVector()
+    {
+
+        float sum = std::abs(X) + std::abs(Y) + std::abs(Z);
+        if (sum == 0.0f)
+        {
+            return;
+        }
+
+        X /= sum;
+        Y /= sum;
+        Z /= sum;
+    }
+
+    public inline void MultiplyByScalar(float scalar)
+    {
+        this->X *= scalar;
+        this->Y *= scalar;
+        this->Z *= scalar;
+    }
+
+    public ~global Vector3 Normalize(const Vector3 & v)
+    {
+        const float vLength = Length(v);
+        return Vector3(v.X / vLength, v.Y / vLength, v.Z / vLength);
+    }
+
+    public ~global Vector3 Normalize(const Vector3 & v, const float length)
+    {
+        return Vector3(v.X / length, v.Y / length, v.Z / length);
+    }
+
+    public inline void PointTo(const Vector3 & from, const Vector3 & pointTo)
+    {
+        X = pointTo.X - from.X;
+        Y = pointTo.Y - from.Y;
+        Z = pointTo.Z - from.Z;
+        MakeUnitVector();
+    }
+
+    /**
+     * Takes the normal vector and the incident and returns reflected vector.
+     */
+    public ~global Vector3 Reflect(const Vector3 & normal,
+                                   const Vector3 & incident)
+    {
+        const Vector3 nIncident = Normalize(incident);
+        return nIncident - (normal * (2*DotProduct(nIncident, normal)));
+    }
+};
+
+/** A vector with X, Y, Z, and W. */
+class Vector4
+{
+    ~hfile=<Lp3/Math/Vector.hpp>
+
+    public float X;
+    public float Y;
+    public float Z;
+    public float W;
+
+    public inline Vector4() : X(0), Y(0), Z(0), W(0) {}
+
+    public inline Vector4(float X, float Y, float Z, float W)
+        : X(X), Y(Y), Z(Z), W(W){}
+
+    public inline float & operator[](int index)
+    {
+        return (index > 1 ?
+            (index == 0 ? X : Y)
+            :
+            (index == 2 ? Z : W)
+            );
+    }
+
+    public inline bool const operator == (Vector4 const & other) const
+    {
+        return (X == other.X && Y == other.Y
+                && Z == other.Z && W == other.W);
+    }
+
+    public inline Vector4 operator + (Vector4 &rhs)
+    {
+        return Vector4(X + rhs.X, Y + rhs.Y, Z + rhs.Z, W + rhs.W);
+    }
+
+    public inline float GetValue(int index) const
+    {
+        return (index > 1 ?
+            (index == 0 ? X : Y)
+            :
+            (index == 2 ? Z : W)
+            );
+    }
+};

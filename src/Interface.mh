@@ -1,0 +1,9 @@
+namespace Lp3::Math
+{
+
+    class Sin { ~hfile=<Lp3/Math/Trig.h> };
+    class Cos { ~hfile=<Lp3/Math/Trig.h> };
+    class Tan { ~hfile=<Lp3/Math/Trig.h> };
+    class Cot { ~hfile=<Lp3/Math/Trig.h> };
+    class GetArc { ~hfile=<Lp3/Math/Trig.h> };
+}
