@@ -9,7 +9,7 @@
 #include <Lp3/Assert.h>
 #include <Lp3/LE.h>
 #include <Lp3/Exception.h>
-#include <Lp3/Math/Vector3.h>
+#include <Lp3/Math/Vector.hpp>
 
 #include <iostream>
 

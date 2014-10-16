@@ -1,3 +1,6 @@
+#ifndef LP3_MATH_VECTOR3
+#define LP3_MATH_VECTOR3
+
 #include <algorithm>
 #include <cmath>
 
@@ -72,11 +75,12 @@ public:
 
     inline NumberType & operator[](int index)
     {
-        return (index > 1 ?
-                    (index == 0 ? X : Y)
-                :
-                    Z
-                );
+        switch(index) {
+            case 0: return X;
+            case 1: return Y;
+            case 2: return Z;
+            default: LP3_FAIL("Bad index."); return X;
+        }
     }
 
     inline const NumberType & operator[](int index) const
@@ -180,4 +184,39 @@ typename VectorType::NumberType Length(const VectorType & v)
     return std::sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
 }
 
+
+template<typename T>
+class Vector4 : public Vector3<T>
+{
+public:
+    float W;
+
+    inline Vector4() : X(0), Y(0), Z(0), W(0) {}
+
+    inline Vector4(float X, float Y, float Z, float W)
+        : X(X), Y(Y), Z(Z), W(W){}
+
+    inline NumberType & operator[](int index)
+    {
+        switch(index) {
+            case  3: return W;
+            case  1: return Y;
+            case  2: return Z;
+            default: return super[index];
+        }
+    }
+
+    inline bool const operator == (Vector4 const & other) const
+    {
+        return (super->==(other) && W == other.W);
+    }
+
+    inline Vector4 operator + (Vector4 &rhs)
+    {
+        return Vector4(X + rhs.X, Y + rhs.Y, Z + rhs.Z, W + rhs.W);
+    }
+
+};
 } } // end namespace
+
+#endif

@@ -1,29 +1,28 @@
-~import Lp3::Math::Cos;
-~import Lp3::Math::Vector3;
-~import Lp3::Math::Vector4;
+#ifndef LP3_MATH_MATRIX
+#define LP3_MATH_MATRIX
 
-~namespace Lp3::Math;
+#include <Lp3/Math/Vector.hpp>
 
 
-/** A vector with X, Y, and Z. */
+namespace Lp3 { namespace Math {
+
+
+
+template<typename T>
 class Matrix4
 {
-    ~block "h-include" {
-        #include <Lp3/Math/Vector.hpp>
-    }
-    ~block "h" {
-        public: Vector4 Rows[4];
-    }
+public:
+    Vector4 Rows[4];
 
-    public Matrix4()
+    Matrix4()
     {}
 
-    public inline Vector4 & operator[](int index)
+    inline Vector4 & operator[](int index)
     {
         return Rows[index];
     }
 
-    public Matrix4 operator * (Matrix4 & rhs)
+    Matrix4 operator * (Matrix4 & rhs)
     {
         Matrix4 c; // new matrix is a.rows and b.columns (rhs == b)
         for (int i = 0; i < 4; i ++) // a.rows
@@ -40,26 +39,26 @@ class Matrix4
         return c;
     }
 
-    public inline Vector3 CreateVector3FromColumn(int column) const
+    inline Vector3<T> CreateVector3FromColumn(int column) const
     {
-        return Vector3(Rows[0].GetValue(column),
-                       Rows[1].GetValue(column),
-                       Rows[2].GetValue(column));
+        return Vector3<T>(Rows[0].GetValue(column),
+                          Rows[1].GetValue(column),
+                          Rows[2].GetValue(column));
     }
 
-    public inline Vector4 CreateVector4FromColumn(int column) const
+    inline Vector4<T> CreateVector4FromColumn(int column) const
     {
-        return Vector4(Rows[0].GetValue(column),
-                       Rows[1].GetValue(column),
-                       Rows[2].GetValue(column),
-                       Rows[3].GetValue(column));
+        return Vector4<T>(Rows[0].GetValue(column),
+                          Rows[1].GetValue(column),
+                          Rows[2].GetValue(column),
+                          Rows[3].GetValue(column));
     }
 
     /** Treats the matrix on rhs as if it's a 4 x 1 matrix (that's
      * 4 rows by 1 column, with the last row being set to zero)
      * producing a 4 x 1 matrix, which is
      * represented as a Vector4. */
-    public Vector3 MultiplyByVector3 (Vector3 & rhs)
+    Vector3<T> MultiplyByVector3 (const Vector3 & rhs)
     {
         // Treats vector4 as a one column, 4 row matrix.
         // Result is 4 x 1
@@ -94,7 +93,7 @@ class Matrix4
     /** Treats the matrix on rhs as if it's a 4 x 1 matrix (that's
      * 4 rows by 1 column) producing a 4 x 1 matrix, which is
      * represented as a Vector4. */
-    public Vector4 MultiplyByVector4 (Vector4 & rhs)
+    Vector4<T> MultiplyByVector4 (const Vector4<T> & rhs)
     {
         // Treats vector4 as a one column, 4 row matrix.
         // Result is 4 x 1
@@ -118,7 +117,7 @@ class Matrix4
     }
 
 
-    public void SetColumnToVector(int column, Vector3 & vector)
+    void SetColumnToVector(int column, Vector3 & vector)
     {
         Rows[0][column] = vector.X;
         Rows[1][column] = vector.Y;
@@ -126,7 +125,7 @@ class Matrix4
         Rows[3][column] = 0.0f;
     }
 
-    public void SetColumnToVector(int column, Vector4 & vector)
+    void SetColumnToVector(int column, Vector4 & vector)
     {
         Rows[0][column] = vector.X;
         Rows[1][column] = vector.Y;
@@ -134,7 +133,7 @@ class Matrix4
         Rows[3][column] = vector.W;
     }
 
-    public void SetToIdentity()
+    void SetToIdentity()
     {
         Rows[0] = Vector4(1, 0, 0, 0);
         Rows[1] = Vector4(0, 1, 0, 0);
@@ -142,7 +141,7 @@ class Matrix4
         Rows[3] = Vector4(0, 0, 0, 1);
     }
 
-    public void SetToRotateMatrixX(int angle)
+    void SetToRotateMatrixX(int angle)
     {
         while(angle >= 360)
         {
@@ -159,7 +158,7 @@ class Matrix4
     }
 
 
-    public void SetToRotateMatrixY(int angle)
+    void SetToRotateMatrixY(int angle)
     {
         while(angle >= 360)
         {
@@ -182,7 +181,7 @@ class Matrix4
      * be supplied to the other SetToRotateMatrixY function, but figuring
      * out the angle would take time so you call this INSTEAD!!K#JKJHF
      * EXPECTS CARTISIAN CORDINATES?!!  X++ to right, Z ++ is UP!*/
-    public void SetToRotateMatrixY(Vector3 direction)
+    void SetToRotateMatrixY(Vector3<T> direction)
     {
         this->Rows[0] = Vector4(direction.Z * -1.0f, 0, direction.X, 0);
         this->Rows[1] = Vector4(0, 1, 0, 0);
@@ -190,7 +189,7 @@ class Matrix4
         this->Rows[3] = Vector4(0, 0, 0, 1);
     }
 
-    public void SetToRotateMatrixZ(int angle)
+    void SetToRotateMatrixZ(int angle)
     {
         while(angle >= 360)
         {
@@ -206,3 +205,5 @@ class Matrix4
         this->Rows[3] = Vector4(0, 0, 0, 1);
     }
 };
+
+#endif
