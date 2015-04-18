@@ -7,7 +7,7 @@
 namespace Lp3 { namespace Math {
 
 
-template<typename T>
+template<typename T=int>
 class Vector3
 {
 public:
@@ -144,8 +144,8 @@ public:
 template<typename VectorType>
 VectorType Normalize(const VectorType & v)
 {
-    const NumberType vLength = Length(v);
-    return Vector3(v.X / vLength, v.Y / vLength, v.Z / vLength);
+    const auto vLength = Length(v);
+    return VectorType(v.X / vLength, v.Y / vLength, v.Z / vLength);
 }
 
 template<typename VectorType, typename NumberType>
@@ -154,8 +154,8 @@ VectorType Normalize(const VectorType & v, const NumberType length)
     return VectorType(v.X / length, v.Y / length, v.Z / length);
 }
 
-template<typename VectorType>
-std::ostream & operator << (std::ostream & output, const VectorType & v)
+template<typename T>
+std::ostream & operator << (std::ostream & output, const Vector3<T> & v)
 {
     output << "(" << v.X << ", " << v.Y << ", " << v.Z << ")";
     return output;

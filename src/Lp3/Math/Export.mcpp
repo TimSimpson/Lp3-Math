@@ -1,0 +1,7 @@
+namespace Lp3::Math
+{
+    class Matrix3 { ~hfile=<Lp3/Math/Matrix.hpp> };
+    class Matrix4 { ~hfile=<Lp3/Math/Matrix.hpp> };
+    class Vector3 { ~hfile=<Lp3/Math/Vector.hpp> };
+    class Vector4 { ~hfile=<Lp3/Math/Vector.hpp> };
+}

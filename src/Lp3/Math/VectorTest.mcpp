@@ -18,16 +18,17 @@ using namespace Lp3::Math;
 LP3_TEST(VectorTests)
 {
     // Should be zero if they're perpendicular.
-    LP3_ASSERT_EQUAL(DotProduct(Vector3(1, 0, 0), Vector3(0, 1, 0)), 0);
+    LP3_ASSERT_EQUAL(DotProduct(Vector3<int>(1, 0, 0), Vector3<int>(0, 1, 0)), 0);
 
-    LP3_ASSERT_EQUAL(Length(Vector3(1, 0, 0)), 1);
+    LP3_ASSERT_EQUAL(Length(Vector3<int>(1, 0, 0)), 1);
 
-    LP3_ASSERT_EQUAL(Length(Normalize(Vector3(1, 0, 0))), 1);
+    LP3_ASSERT_EQUAL(Length(Normalize(Vector3<int>(1, 0, 0))), 1);
 
-    LP3_ASSERT_EQUAL(Length(Normalize(Vector3(325.5, 45356, 35.43))), 1);
+    LP3_ASSERT_EQUAL(Length(Normalize(Vector3<double>(325.5, 45356, 35.43))), 1);
 
-    const Vector3 a = CrossProduct(Vector3(1, 8, 16), Vector3(76, 6, 4));
-    const Vector3 b = Vector3(-64, 1212, -602);
+    const auto a = CrossProduct(Vector3<int>(1, 8, 16),
+                                   Vector3<int>(76, 6, 4));
+    const auto b = Vector3<int>(-64, 1212, -602);
     std::cout << a  << b;
 //    LP3_ASSERT_EQUAL(a, b);
 
