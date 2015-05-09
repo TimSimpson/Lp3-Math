@@ -2,7 +2,7 @@
 #define LP3_MATH_MATRIX
 
 #include <Lp3/Math/Vector.hpp>
-
+#include <Lp3/Math/Trig.h>
 
 namespace Lp3 { namespace Math {
 
@@ -12,12 +12,12 @@ template<typename T>
 class Matrix4
 {
 public:
-    Vector4 Rows[4];
+    Vector4<T> Rows[4];
 
     Matrix4()
     {}
 
-    inline Vector4 & operator[](int index)
+    inline Vector4<T> & operator[](int index)
     {
         return Rows[index];
     }
@@ -58,11 +58,11 @@ public:
      * 4 rows by 1 column, with the last row being set to zero)
      * producing a 4 x 1 matrix, which is
      * represented as a Vector4. */
-    Vector3<T> MultiplyByVector3 (const Vector3 & rhs)
+    Vector3<T> MultiplyByVector3 (const Vector3<T> & rhs)
     {
         // Treats vector4 as a one column, 4 row matrix.
         // Result is 4 x 1
-        Vector3 c; // new matrix is a.rows and b.columns (rhs == b)
+        Vector3<T> c; // new matrix is a.rows and b.columns (rhs == b)
          // forget last row (index = 3) because its cut off.
         /*for (int i = 0; i < 3; i ++) // a.rows
         {
@@ -117,7 +117,7 @@ public:
     }
 
 
-    void SetColumnToVector(int column, Vector3 & vector)
+    void SetColumnToVector(int column, Vector3<T> & vector)
     {
         Rows[0][column] = vector.X;
         Rows[1][column] = vector.Y;
@@ -125,7 +125,7 @@ public:
         Rows[3][column] = 0.0f;
     }
 
-    void SetColumnToVector(int column, Vector4 & vector)
+    void SetColumnToVector(int column, Vector4<T> & vector)
     {
         Rows[0][column] = vector.X;
         Rows[1][column] = vector.Y;
@@ -151,10 +151,10 @@ public:
         {
             angle = angle + 360;
         }
-        this->Rows[0] = Vector4(1, 0, 0, 0);
-        this->Rows[1] = Vector4(0, Cos(angle), Sin(angle) * -1.0f, 0);
-        this->Rows[2] = Vector4(0, Sin(angle), Cos(angle), 0);
-        this->Rows[3] = Vector4(0, 0, 0, 1);
+        this->Rows[0] = Vector4<T>(1, 0, 0, 0);
+        this->Rows[1] = Vector4<T>(0, Cos(angle), Sin(angle) * -1.0f, 0);
+        this->Rows[2] = Vector4<T>(0, Sin(angle), Cos(angle), 0);
+        this->Rows[3] = Vector4<T>(0, 0, 0, 1);
     }
 
 
@@ -168,10 +168,10 @@ public:
         {
             angle = angle + 360;
         }
-        this->Rows[0] = Vector4(Cos(angle), 0, Sin(angle) * -1.0f, 0);
-        this->Rows[1] = Vector4(0, 1, 0, 0);
-        this->Rows[2] = Vector4(Sin(angle), 0, Cos(angle), 0);
-        this->Rows[3] = Vector4(0, 0, 0, 1);
+        this->Rows[0] = Vector4<T>(Cos(angle), 0, Sin(angle) * -1.0f, 0);
+        this->Rows[1] = Vector4<T>(0, 1, 0, 0);
+        this->Rows[2] = Vector4<T>(Sin(angle), 0, Cos(angle), 0);
+        this->Rows[3] = Vector4<T>(0, 0, 0, 1);
     }
 
 
@@ -205,5 +205,7 @@ public:
         this->Rows[3] = Vector4(0, 0, 0, 1);
     }
 };
+
+}}
 
 #endif

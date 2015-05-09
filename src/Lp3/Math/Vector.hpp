@@ -191,10 +191,10 @@ class Vector4 : public Vector3<T>
 public:
     float W;
 
-    inline Vector4() : X(0), Y(0), Z(0), W(0) {}
+    inline Vector4() : Vector3(0, 0, 0), W(0) {}
 
     inline Vector4(float X, float Y, float Z, float W)
-        : X(X), Y(Y), Z(Z), W(W){}
+        : Vector3(X, Y, Z), W(W){}
 
     inline NumberType & operator[](int index)
     {
@@ -217,6 +217,7 @@ public:
     }
 
 };
+
 } } // end namespace
 
 #endif
